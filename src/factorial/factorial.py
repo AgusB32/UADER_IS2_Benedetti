@@ -25,15 +25,27 @@ def calcular_factoriales(desde, hasta):
         print(f"Factorial {num}! es {factorial(num)}")
 
 if len(sys.argv) < 2:
-    entrada = input("Ingrese un rango (ej. 4-8): ")
+    entrada = input("Ingrese un rango (ej. 4-8, -10, 5- o -60): ")
 else:
     entrada = sys.argv[1]
 
 try:
-    desde, hasta = map(int, entrada.split('-'))
+    if "-" in entrada:
+        partes = entrada.split("-")
+        if entrada.startswith("-"):
+            desde = 1
+            hasta = int(partes[1])
+        elif entrada.endswith("-"):
+            desde = int(partes[0])
+            hasta = 60
+        else:
+            desde, hasta = map(int, partes)
+    else:
+        desde = hasta = int(entrada)
+    
     if desde > hasta:
         print("El primer número debe ser menor o igual al segundo.")
     else:
         calcular_factoriales(desde, hasta)
 except ValueError:
-    print("Formato inválido. Ingrese dos números separados por un guion (ej. 4-8).")    
+    print("Formato inválido. Ingrese un número o un rango en el formato correcto (ej. 4-8, -10, 5- o -60).")
